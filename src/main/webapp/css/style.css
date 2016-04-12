@@ -1,0 +1,453 @@
+#logos{
+    float:left;
+    width:48%;
+    display: inline-block;
+    margin-left: 1%;
+
+}
+#logosb{
+    float:right;
+    width:48%;
+    display: inline-block;
+    margin-right: 1%;
+}
+#adheheight{
+    text-align: center;}
+#footerText{
+
+    /*display: inline-block;*/
+    margin:0 auto;
+    text-align: center;
+    /*margin-left: 1%;*/
+    float:center;
+}
+#row{
+    width:100%;
+}
+span{
+    text-align: center;
+}
+html, body, #container {
+    height: 100%;
+}
+body > #container {
+    height: auto; min-height: 100%;
+}
+#footer {
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
+}
+#content {
+    padding-bottom: 3em;
+}
+/*html { overflow-y: scroll; }*/
+/*html { overflow: hidden; }*/
+body {
+    font-size: 12px;
+    font-family: Verdana,Arial,sans-serif;
+    height:100%;
+    width: 100%;
+    background-color: #90EE90;
+    overflow-x: hidden;
+}
+.logbody {
+    margin: 0 auto;
+    width: 400px;
+    height: auto;
+}
+
+.logbodyinn {
+    width : 100%;
+    margin-top: 30%;
+    padding: 20px 30px;
+    border: 1px solid #ddd;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+
+.loginline {
+    padding: 5px;
+    min-height: 14px;
+}
+
+.loginline label {
+    width: 40px;
+}
+
+.loginLabel {
+    width: 60px;
+    float: left;
+    padding-top: 4px;
+}
+
+/*.loginline input, a{
+    float: right;
+} */
+.header {
+    height: 20%;
+}
+.logo {
+    margin: 0 auto;
+    width: 114px;
+    height: auto;
+}
+
+.facilityName label{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.logos {
+    min-width:200px;
+    float: left;
+}
+
+.logos_right {
+    min-width:200px;
+    float: right;
+}
+
+.footerText {
+    padding: 5px 20px 0px 20px;
+    width: 400px;
+    float: left;
+}
+
+.footer {
+    margin: 0 auto;
+    float: left;
+    width: 1200px;
+    height: 10%;
+    padding-left: 10%;
+}
+
+.content {
+    width: 1000px;
+    max-height: 80%;
+    min-height: 50px;
+    padding-bottom: 20px;
+    margin: 20px auto;
+}
+
+.search {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin: 0 auto;
+    width: 500px;
+}
+
+.search input {
+    width: 500px;
+    padding: 7px;
+}
+
+.searchLabel {
+    padding-top: 5px;
+    width: 600px;
+    margin: 0 auto;
+}
+
+.main_menu {
+    min-width: 500px;
+    width: 700px;
+    min-height: 140px;
+    margin: 0 auto ;
+    padding-top: 10px;
+    padding-bottom: 30px;
+    float: left;
+}
+
+.menuItem {
+    width: 130px;
+    height: 210px;
+    margin: 5px 20px 5px 15px;
+    float: left;
+    cursor: pointer;
+}
+
+.menuItem img {
+
+    padding: 5px;
+}
+.menuItem img:hover{
+
+    color:midnightblue;
+}
+
+.logos.img {
+    height: 9%;
+}
+
+.menu {
+    min-width: 500px;
+    width: 900px;
+    min-height: 140px;
+    margin: 0 auto ;
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.menuItem div {
+    margin : 10px 15px;
+    text-align: center;
+    width: 100px;
+    cursor: pointer;
+}
+
+.menubar {
+    display: block;
+    width: auto;
+    height: 30px;
+    padding: 5px 20px 5px 40px;
+}
+
+.menubar_item {
+    min-width: 50px;
+    border: 1px solid #000;
+    padding: 0 5px;
+    float: left;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #fff;
+}
+
+.form{
+    width: 100%;
+    margin-top: 10px;
+    float: left;
+}
+.formItem {
+    width: 700px;
+    min-height: 20px;
+    padding: 5px 0;
+    float: left;
+}
+
+
+.formItem .item {
+    width: 330px;
+    float: left;
+}
+
+.formStockItem {
+    width: 50%;
+    padding:5px 0;
+    float: left;
+}
+
+.formStockItem .item {
+    width: 50%;
+    float: left;
+}
+
+.formButton {
+    margin: 0 10px;
+    float: left;
+}
+
+.item input[type="text"], .item label, .item select{
+    padding: 3px;
+    width: 250px;
+}
+
+.formText {
+    /*height: 50px;*/
+}
+
+.formItem .formButton button {
+    width: 200px;
+    float: left;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+table {
+    font-size: 12px;
+}
+
+table.formTable {
+    width: 100%;
+    border-collapse:collapse;
+}
+
+table.formTable  td, th{
+    border: 1px solid #d4d4d4;;
+}
+
+.formTable .counter {
+    width: 30px;
+}
+
+table.formTable input[type=text], table.formTable select {
+    width: 94%;
+}
+
+table.formTable select.drugs {
+    min-width: 200px;
+
+}
+
+table.formTable select.searchable {
+    height: 20px;
+}
+
+.name {
+    text-transform: uppercase;
+}
+select.searchable {
+    min-width:330px; height: 20px;
+}
+
+.required {
+    color: red;
+}
+
+.delete {
+    background: url("themes/metro/delete.png") no-repeat scroll 0% 0%;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+/** modal **/
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal-div {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+
+    background: rgba( 255, 255, 255, .8 ) ;
+
+                /*url('images/loading.gif')*/
+                /*50% 50%*/
+                /*no-repeat;*/
+
+}
+
+.modal-div div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /*
+    z-index: 100;
+
+    height: 400px;
+    margin-top: -200px;
+
+    width: 600px;
+    margin-left: -300px;
+    */
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal-div {
+    display: block;
+}
+
+td.title {
+    text-align: right;
+}
+
+.hidden {
+    display: none;
+}
+
+.frontReport {
+    width: 130px;
+    height: 130px;
+    margin: 5px 20px 5px 15px;
+    float: left;
+    cursor: pointer;
+}
+
+table.dispense {
+    font-size: 12px;
+    width: 100%;
+    border-collapse:collapse;
+}
+
+table.dispense td {
+    padding : 5px;
+}
+
+.full-modal .modal-dialog {
+    width: 90%;
+}
+
+.row-centered {
+    text-align:center;
+}
+
+.col-centered{
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+fieldset.field {
+    border: 1px solid #999999;
+    padding: 4px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.modal .modal-body {
+    max-height: 550px;
+    overflow-y: auto;
+}
+.reportarrange{
+    background-color: white;
+}
+img{
+    border: green;
+}
+tr:nth-child(even){
+    background-color: ghostwhite;
+}
+tr:nth-child(odd){
+    background-color: papayawhip;
+}
+td:hover{
+    background-color: cadetblue;
+
+}
+#adherencemonitoringtable1{
+    width: 100%;
+    height: 80%;
+    margin-left: 20%;
+}
+#adheheight1{
+    width: 60%;
+}
+
+
+/*side nav tabs*/
+

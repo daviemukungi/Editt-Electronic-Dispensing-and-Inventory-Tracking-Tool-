@@ -1,0 +1,151 @@
+Drug consumption by month
+SELECT ti.units_in, ti.units_out, ti.drug_id,drug.name, dispensing_unit.name as unit, ti.batch_no, tx.transaction_type_id FROM transaction_item ti JOIN transaction tx ON tx.id = ti.transaction_id JOIN drug ON ti.drug_id = drug.id JOIN dispensing_unit ON drug.dispensing_unit_id = dispensing_unit.id ORDER BY -batch_no DESC
+
+
+patient listing by drug used
+
+Drug, 
+ID, First Name, Surname, Age
+
+List of patients scheduled to visit on a day : 
+Date ,
+Patient No,  First Name, Surname, Sex, Age, Contact, Address, last regimen
+
+SELECT p.id, p.surname, p.first_name, p.other_names, p.date_of_birth, pa.tel_no1, pa.postal_address, patient.id, visit.regimen_id, visit.next_appointment_date FROM person p JOIN person_address pa ON p.id = pa.person_id JOIN patient ON p.id = patient.person_id JOIN visit ON (patient.id = visit.patient_id AND date(visit.next_appointment_date) = '2013-06-07')
+
+Patients for Routine refill
+Date : 
+ART number, Service, Supported by, First name, Surname, Age, Sex, Regimen, Weight
+SELECT p.surname, p.first_name, p.other_names, p.date_of_birth, pa.tel_no1, pa.postal_address, patient.service_type_id, visit.regimen_id FROM person p JOIN person_address pa ON p.id = pa.person_id JOIN patient ON p.id = patient.person_id JOIN visit ON patient.id = visit.id WHERE date(visit.next_appointment_date) = '06/06/2014'
+
+Inventory Status :
+Date, 
+Drug, Unit, packsize, Stocks , SOH in packs, safety Stock, Stock Status
+
+List of expired drugs :
+Commodity Name, Unit, Batch Number, Date expired, Quantity, Days since expiry
+
+SELECT ti.units_in, ti.units_out, ti.drug_id,drug.name, dispensing_unit.name as unit, ti.batch_no, bt.date_of_expiry FROM transaction_item ti LEFT JOIN batch_transaction_item bt ON ti.id = bt.transaction_item_id JOIN drug ON ti.drug_id = drug.id JOIN dispensing_unit ON drug.dispensing_unit_id = dispensing_unit.id ORDER BY -batch_no DESC
+
+Short Dated Stocks
+Name, Unit, Batch No, Expiry Date, Quantity, No of days to expiry
+
+Patient listing by status
+List of PEP end patients
+Type of service, ART ID, First Name, Surname, Sex
+
+Bin Cards
+Drugs
+Batch
+Transactions
+
+Dispensed date
+Drug name
+Consumed in tabs/ caps
+
+SELECT drug.name, transaction.date, transaction_item.units_in FROM drug d JOIN transaction_item ti ON d.id = ti.drug_id JOIN transaction t ON ti.transaction_id = t.id
+
+Drug consumption Report
+Drug, Month (Jan - Dec)
+
+Commodities Received/Issued Report - Year/Month/Supplier
+ - Commodities from all suppliers  SELECT b.no_of_packs, b.pack_size, d.name, ti.account_id, ti.units_in FROM batch_transaction_item b JOIN transaction_item ti ON b.transaction_item_id = ti.id JOIN drug d ON ti.drug_id = d.id
+ - Commodities Issues
+ - Facility Commodity Summary Report
+ 
+BMI Report
+ 
+ 
+Patient Listing by Type of Drugs used 
+ -  ART ID, First Name, Surname, Current Age
+ Active patients by regimen
+ Regimen, type of service.
+ //Regimens for type of service 46, Female, Adult
+ SELECT r.name, r.id, COUNT(v.regimen_id) FROM visit v JOIN regimen r ON v.regimen_id = r.id JOIN patient p ON p.id = v.patient_id JOIN person pr ON pr.id = p.person_id WHERE p.service_type_id = 46 AND pr.sex = 'Female' AND date(pr.date_of_birth) > DATE_SUB(date(now()), INTERVAL 18 YEAR) GROUP BY regimen_id
+
+Number of patients cumulative
+Patient Status count
+SELECT count(t.patient_status_id), t.patient_status_id FROM test t group by patient_status_id
+
+Service types based on status
+SELECT count(t.service_type_id), t.service_type_id,t.service_type, t.patient_status_id FROM test t group by service_type_id
+
+
+Drug name, pack size
+SELECT d.id, d.name, d.pack_size, du.name FROM drug d JOIN dispensing_unit du ON d.dispensing_unit_id = du.id
+beginning Balance 
+SELECT ti.drug_id, SUM(ti.units_in) as units_in, SUM(ti.units_out) as units_out, (SUM(ti.units_in) - SUM(ti.units_out)) as diff FROM transaction_item ti JOIN transaction t ON ti.transaction_id = t.id WHERE date(t.date) < '2014-07-01' group BY drug_id 
+
+Quantity Received
+SELECT SUM(ti.units_in), ti.drug_id FROM transaction_item ti JOIN transaction t ON ti.transaction_id = t.id WHERE t.transaction_type_id = ? AND t.date = group by drug_id
+
+Quantity dispensed (Units, packs) / Adjustments
+SELECT SUM(ti.units_in), ti.drug_id FROM transaction_item ti JOIN transaction t ON ti.transaction_id = t.id WHERE t.transaction_type_id = ? AND t.date = group by drug_id
+
+Drugs with less than 6 month to expire
+SELECT ti.drug_id,  (SUM(ti.units_in) - SUM(ti.units_out)) as diff FROM batch_transaction_item bt JOIN transaction_item ti ON bt.transaction_item_id = ti.id WHERE date(bt.date_of_expiry) < DATE_ADD(date(now()), INTERVAL 6 MONTH ) group by drug_id 
+
+Days Out Of Stock
+SELECT ti.drug_id, (COALESCE(SUM(ti.units_in), 0) - COALESCE(SUM(ti.units_out), 0)) as diff, max(t.date) FROM transaction_item ti JOIN transaction t ON ti.transaction_id = t.id WHERE date(t.date) < '2014-05-05' AND date(t.date) > '2010-05-05' 0 GROUP BY drug_id
+
+Patients enrolled in a period
+SELECT count(p.service_type_id), st.name, st.id FROM patient p JOIN service_type st ON p.service_type_id = st.id group by service_type_id WHERE p.enrollment_date between ()
+
+Regimens by patients
+SELECT r.name, r.id, COUNT(v.regimen_id) FROM visit v JOIN regimen r ON v.regimen_id = r.id JOIN patient p ON p.id = v.patient_id JOIN person pr ON pr.id = p.person_id WHERE v.id IN (SELECT max(id) FROM visit GROUP by patient_id)
+
+Patient listing by status : DONE
+SELECT p.surname, p.first_name, p.other_names, p.sex, pt.service_type_id, st.name, v.patient_status_id, ps.name as `patient status` FROM person p JOIN patient pt ON p.id = pt.person_id JOIN service_type st ON pt.service_type_id = st.id JOIN visit v ON pt.id = v.patient_id JOIN patient_status ps ON v.patient_status_id = ps.id WHERE v.id IN (SELECT max(id) FROM visit GROUP by patient_id)
+
+Missed appointments : DONE
+SELECT p.surname, p.other_names, p.first_name, pa.postal_address, pt.id, v.next_appointment_date FROM person p JOIN person_address pa ON p.id = pa.person_id JOIN patient pt ON p.id = pt.person_id JOIN visit v ON v.patient_id = pt.id WHERE v.id IN (SELECT max(id) FROM visit GROUP by patient_id) AND v.next_appointment_date < now()
+
+Patients listing by drug used : DONE
+SELECT p.surname, p.other_names, p.first_name, pt.id FROM person p JOIN patient pt ON p.id = pt.person_id JOIN visit v ON v.patient_id = pt.id JOIN transaction t ON t.visit_id = v.id JOIN transaction_item ti ON t.id = ti.transaction_id WHERE v.id IN (SELECT max(id) FROM visit GROUP by patient_id) AND ti.drug_id = 1249
+
+Check updating of patients, returns garbage.
+
+patients started on ART
+SELECT count(p.service_type_id), st.name, st.id FROM patient p JOIN service_type st ON p.service_type_id = st.id JOIN person ps ON p.person_id = ps.id WHERE  (date(p.service_start_date) BETWEEN '2004-01-01' AND '2014-01-01') AND st.id = 45 group by service_type_id 
+
+Patients started on First line
+SELECT COUNT(v.regimen_id) FROM visit v JOIN regimen r ON v.regimen_id = r.id JOIN patient p ON p.id = v.patient_id JOIN person pr ON pr.id = p.person_id WHERE v.id IN (SELECT min(id) FROM visit GROUP by patient_id) AND (date(p.service_start_date) BETWEEN '2004-01-01' AND '2012-01-01') AND r.line = 1
+
+Patients lost to follow up
+SELECT COUNT(v.patient_status_id) FROM visit v JOIN patient p ON p.id = v.patient_id JOIN person pr ON pr.id = p.person_id WHERE v.id IN (SELECT max(id) FROM visit GROUP by patient_id) AND (date(v.start_date) BETWEEN '2004-01-01' AND '2012-01-01') AND v.patient_status_id = 138
+
+Missed appointment
+SELECT v.patient_id, v.next_appointment_date, v2.start_date FROM visit v INNER JOIN visit v2 on date(v.next_appointment_date) != date(v2.start_date) AND v2.id IN (SELECT min(id) FROM visit WHERE id > v.id AND patient_id = v.patient_id)
+
+Regimen change
+SELECT v.patient_id, v.regimen_id, v2.start_date, v2.regimen_id FROM visit v INNER JOIN visit v2 on v.regimen_id != v2.regimen_id AND v2.id IN (SELECT min(id) FROM visit WHERE id > v.id AND patient_id = v.patient_id)
+
+Patient view 
+USE `fdt`;
+CREATE 
+     OR REPLACE ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `patient_view` AS
+    select 
+        `p`.`id` AS `id`,
+        `pst`.`service_type_id` AS `service_type_id`,
+        `ps`.`name` AS `patient_status`,
+        `p`.`patient_status_id` AS `patient_status_id`,
+        `v`.`start_date` AS `visit_date`,
+        `st`.`name` AS `service_type`,
+        `pr`.`sex` AS `sex`,
+        `pr`.`date_of_birth` AS `date_of_birth`
+    from
+        (((((`patient_service_type` `pst`
+        join `patient` `p` ON ((`pst`.`patient_id` = `p`.`id`)))
+        join `visit` `v` ON ((`p`.`id` = `v`.`patient_id`)))
+        join `person` `pr` ON ((`p`.`person_id` = `pr`.`id`)))
+        left join `patient_status` `ps` ON ((`ps`.`id` = `v`.`patient_status_id`)))
+        left join `service_type` `st` ON ((`st`.`id` = `pst`.`service_type_id`)))
+    where
+        `v`.`id` in (select 
+                max(`visit`.`id`)
+            from
+                `visit`
+            group by `visit`.`patient_id`);

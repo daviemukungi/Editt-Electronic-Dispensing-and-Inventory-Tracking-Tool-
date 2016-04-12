@@ -1,0 +1,170 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog dbchangelog-2.0.xsd">
+
+    <property name="now" value="now()" dbms="mysql"/>
+
+    <changeSet id="2015-12-09///MaxAppointmentsProperty" author="Stephen Kinyori">
+        <preConditions onFail="MARK_RAN">
+            <not><primaryKeyExists tableName="property" primaryKeyName="Max_Appointments_Per_Day"/></not>
+        </preConditions>
+        <insert tableName="property">
+            <column name="key" value="Max_Appointments_Per_Day"/>
+            <column name="description" value="Maximum number of appointments per day"/>
+            <column name="uuid" value="76cc187e-9e73-11e5-8994-feff819cdc9f"/>
+            <column name="created_by" value="1"/>
+            <column name="created_on" valueDate="${now}"/>
+        </insert>
+    </changeSet>
+    <changeSet id="2015-12-10///AddServiceArea" author="Stephen Kinyori">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="service_type" columnName="service_area"/></not>
+        </preConditions>
+        <addColumn tableName="service_type">
+            <column name="service_area" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2015-12-17///addIndication" author="Stephen Kinyori">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="patient_transaction_item" columnName="indication"/></not>
+        </preConditions>
+        <addColumn tableName="patient_transaction_item">
+            <column name="indication" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2015-12-16///addadherencecolumntopatient_transaction_item" author="Stephen Kinyori">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="patient_transaction_item" columnName="adherence"/></not>
+        </preConditions>
+        <addColumn tableName="patient_transaction_item">
+            <column name="adherence" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2015-12-16///addpill_countcolumntopatient_transaction_item" author="Stephen Kinyori">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="patient_transaction_item" columnName="pill_count"/></not>
+        </preConditions>
+        <addColumn tableName="patient_transaction_item">
+            <column name="pill_count" type="int(10)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2015-12-17///addDrugPay" author="Stephen Kinyori/Peter Muthaka">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="visit" columnName="drugPay"/></not>
+        </preConditions>
+        <addColumn tableName="visit">
+            <column name="drugPay" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2015-12-17///addTotalCost" author="Stephen Kinyori/Peter Muthaka">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="patient_transaction_item" columnName="total_cost"/></not>
+        </preConditions>
+        <addColumn tableName="patient_transaction_item" >
+            <column  name="total_cost" type="varchar(255)" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="2016-01-05///addIs_satellite" author="Kayeli Dennis" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="account" columnName="Is_satellite" /></not>
+        </preConditions>
+        <addColumn tableName="account">
+            <column name="Is_satellite" type="tinyint(1)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2016-01-05///addIs_bulkstore" author="Kayeli Dennis" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="account" columnName="Is_bulkstore"/></not>
+        </preConditions>
+        <addColumn tableName="account">
+            <column name="Is_bulkstore" type="tinyint(1)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2016-01-05///addCannot_dispense" author="Kayeli Dennis" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="account" columnName="Cannot_dispense"/></not>
+        </preConditions>
+        <addColumn tableName="account">
+            <column name="Cannot_dispense" type="tinyint(1)" defaultValue="0"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2016-01-18//setdefaultValues" author="StephenKinyori">
+        <preConditions onFail="MARK_RAN">
+            <and><columnExists tableName="account" columnName="Cannot_dispense"/></and>
+            <and><columnExists tableName="account" columnName="Is_bulkstore"/></and>
+            <and><columnExists tableName="account" columnName="Is_satellite"/></and>
+        </preConditions>
+        <update tableName="account">
+            <column name="Cannot_dispense" valueNumeric="0"/>
+            <column name="Is_bulkstore" valueNumeric="0"/>
+            <column name="Is_satellite" valueNumeric="0"/>
+            <where>id !=0</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="2015-12-17///removetotalcostTotalCost" author="Stephen Kinyori" runAlways="true">
+        <preConditions onFail="MARK_RAN">
+            <and><columnExists tableName="patient_transaction_item" columnName="total_cost"/></and>
+        </preConditions>
+        <dropColumn tableName="patient_transaction_item" columnName="total_cost" />
+    </changeSet>
+
+    <changeSet id="2016/01/21///addActiveColumnandUpdateTo3" author="stephen kinyori" runOnChange="true">
+        <preConditions>
+            <not>
+                <columnExists tableName="patient_identifier" columnName="active"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="patient_identifier">
+            <column name="active" type="int(1)" defaultValue="0"/>
+        </addColumn>
+        <update tableName="patient_identifier">
+            <column name="active" valueNumeric="1"/>
+            <where>id !=0</where>
+        </update>
+    </changeSet>
+
+    <changeSet id="2016-01-28///addBabbies" author="peterMuthaka" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not><columnExists tableName="visit" columnName="babies"/></not>
+        </preConditions>
+        <addColumn tableName="visit" >
+            <column  name="babies" type="varchar(255)" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="2016-02-03////addPackSize" author="Stephen Kinyori" runAlways="true" onValidationFail="MARK_RAN" failOnError="false">
+        <preConditions>
+            <not>
+                <columnExists tableName="stock_take_sheet" columnName="pack_size" />
+            </not>
+        </preConditions>
+        <addColumn tableName="stock_take_sheet">
+            <column name="pack_size" type="varchar(255)" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="2016-02-03////addPackSize2" author="Stephen Kinyori" runAlways="true" onValidationFail="MARK_RAN" failOnError="false">
+        <preConditions>
+            <not>
+                <columnExists tableName="stock_take_item" columnName="pack_size" />
+            </not>
+        </preConditions>
+        <addColumn tableName="stock_take_item">
+            <column name="pack_size" type="varchar(255)" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2016/02/15//add loose and pack colums" author="Stephen Kinyori">
+        <preConditions>
+            <not>
+                <columnExists tableName="stock_take_item" columnName="packs"/>
+                <columnExists tableName="stock_take_item" columnName="looseQty"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="stock_take_item">
+            <column name="packs" type="int(10)"/>
+            <column name="looseQty" type="int(10)"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

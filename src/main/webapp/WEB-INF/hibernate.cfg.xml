@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://localhost:3306/fdt</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="jdbc.fetch_size">50</property>
+    <property name="show_sql">true</property>
+    <mapping class="org.msh.fdt.model.Account"/>
+      <mapping class="org.msh.fdt.model.AccountType"/>
+      <mapping class="org.msh.fdt.model.AccountTypeTransactionType"/>
+      <mapping class="org.msh.fdt.model.DispensingUnit"/>
+      <mapping class="org.msh.fdt.model.District"/>
+      <mapping class="org.msh.fdt.model.Dosage"/>
+      <mapping class="org.msh.fdt.model.Drug"/>
+      <mapping class="org.msh.fdt.model.GenericName"/>
+      <mapping class="org.msh.fdt.model.IdentifierType"/>
+      <mapping class="org.msh.fdt.model.Patient"/>
+      <mapping class="org.msh.fdt.model.PatientIdentifier"/>
+      <mapping class="org.msh.fdt.model.PatientSource"/>
+      <mapping class="org.msh.fdt.model.PatientTransactionItem"/>
+      <mapping class="org.msh.fdt.model.Person"/>
+      <mapping class="org.msh.fdt.model.PersonAddress"/>
+      <mapping class="org.msh.fdt.model.Prescription"/>
+      <mapping class="org.msh.fdt.model.PrescriptionItem"/>
+      <mapping class="org.msh.fdt.model.Privilege"/>
+      <mapping class="org.msh.fdt.model.Regimen"/>
+      <mapping class="org.msh.fdt.model.RegimenDrug"/>
+      <mapping class="org.msh.fdt.model.RegimenType"/>
+      <mapping class="org.msh.fdt.model.Region"/>
+      <mapping class="org.msh.fdt.model.Role"/>
+      <mapping class="org.msh.fdt.model.RolePrivilege"/>
+      <mapping class="org.msh.fdt.model.ServiceType"/>
+      <mapping class="org.msh.fdt.model.SupportingOrganization"/>
+      <mapping class="org.msh.fdt.model.Transaction"/>
+      <mapping class="org.msh.fdt.model.TransactionItem"/>
+      <mapping class="org.msh.fdt.model.TransactionType"/>
+      <mapping class="org.msh.fdt.model.User"/>
+      <mapping class="org.msh.fdt.model.UserRole"/>
+      <mapping class="org.msh.fdt.model.Visit"/>
+      <mapping class="org.msh.fdt.model.BatchTransactionItem"/>
+      <mapping class="org.msh.fdt.model.District"/>
+      <mapping class="org.msh.fdt.model.DrugCategory"/>
+      <mapping class="org.msh.fdt.model.DrugForm"/>
+      <mapping class="org.msh.fdt.model.DrugSupportingOrganization"/>
+      <mapping class="org.msh.fdt.model.DrugType"/>
+      <mapping class="org.msh.fdt.model.Facility"/>
+      <mapping class="org.msh.fdt.model.Indication"/>
+      <mapping class="org.msh.fdt.model.PatientStatus"/>
+      <mapping class="org.msh.fdt.model.Property"/>
+      <mapping class="org.msh.fdt.model.RegimenChangeReason"/>
+      <mapping class="org.msh.fdt.model.RegimenStatus"/>
+      <mapping class="org.msh.fdt.model.Region"/>
+      <mapping class="org.msh.fdt.model.VisitType"/>
+      <mapping class="org.msh.fdt.model.StockTakeItem"/>
+      <mapping class="org.msh.fdt.model.StockTakeSheet"/>
+      <mapping class="org.msh.fdt.model.FamilyPlanningMethod"/>
+      <mapping class="org.msh.fdt.model.FamilyPlanningMethodChangeReason"/>
+      <mapping class="org.msh.fdt.model.BloodSugarLevel"/>
+      <mapping class="org.msh.fdt.model.Insulin"/>
+      <mapping class="org.msh.fdt.model.PatientServiceType"/>
+    <mapping class="org.msh.fdt.model.CdrrCategory"/>
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>

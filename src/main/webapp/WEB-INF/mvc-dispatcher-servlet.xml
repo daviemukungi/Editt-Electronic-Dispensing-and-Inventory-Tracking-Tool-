@@ -1,0 +1,127 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:component-scan base-package="org.msh.fdt"/>
+    <context:annotation-config />
+    <mvc:annotation-driven />
+
+    <mvc:interceptors>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/login/json/getSecretQuestion" />
+            <bean class="org.msh.fdt.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+        <bean class="org.msh.fdt.interceptor.SecurityInterceptor" />
+
+    </mvc:interceptors>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jsonConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jsonConverter" class="org.msh.fdt.json.CustomJSONMessageConverter">
+        <property name="objectMapper" ref="customJSONObjectMapper"/>
+        <property name="supportedMediaTypes" value="application/json" />
+    </bean>
+
+    <bean id="customJSONObjectMapper" class="org.msh.fdt.json.CustomJSONObjectMapper"/>
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc.properties" />
+
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+          p:driverClassName="${jdbc.driverClassName}"
+          p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
+          p:password="${jdbc.password}" />
+
+	<bean id="metadataService" class="org.msh.fdt.service.MetadataServiceImpl">
+		<property name="connectionProperties">
+			<props>
+				<prop key="driver">${jdbc.driverClassName}</prop>
+				<prop key="url">${jdbc.databaseurl}</prop>
+				<prop key="username">${jdbc.username}</prop>
+				<prop key="password">${jdbc.password}</prop>
+			</props>
+		</property>
+	</bean>
+    <bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+        <property name="dataSource" ref="dataSource" />
+        <property name="changeLog" value="/WEB-INF/db-changelog.xml" />
+        <property name="defaultSchema" value="fdt" />
+    </bean>
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="/WEB-INF/hibernate.cfg.xml"/>
+        <property name="configurationClass">
+            <value>org.hibernate.cfg.AnnotationConfiguration</value>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/fdt</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+                <prop key="hibernate.jdbc.fetch_size">100</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="FDTSchedulerTask" class="org.msh.fdt.scheduling.FDTSchedulerTask"/>
+    <bean id="updateJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="FDTSchedulerTask"/>
+        <property name="targetMethod" value="updateUsers"/>
+    </bean>
+
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="updateJob"/>
+        <property name="cronExpression" value="0 0 6 * * ?"/> <!-- 0/5 * * * * ? -->
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="updateJob"/>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+    <tx:annotation-driven />
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+	<bean id="multipartResolver"
+		  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+</beans>

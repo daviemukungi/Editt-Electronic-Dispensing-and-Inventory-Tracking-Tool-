@@ -1,0 +1,123 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 16/02/2016 08:32
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-business:before { content: "\f100"; }
+.flaticon-business-1:before { content: "\f101"; }
+.flaticon-business-10:before { content: "\f102"; }
+.flaticon-business-11:before { content: "\f103"; }
+.flaticon-business-2:before { content: "\f104"; }
+.flaticon-business-3:before { content: "\f105"; }
+.flaticon-business-4:before { content: "\f106"; }
+.flaticon-business-5:before { content: "\f107"; }
+.flaticon-business-6:before { content: "\f108"; }
+.flaticon-business-7:before { content: "\f109"; }
+.flaticon-business-8:before { content: "\f10a"; }
+.flaticon-business-9:before { content: "\f10b"; }
+.flaticon-computer:before { content: "\f10c"; }
+.flaticon-contacts:before { content: "\f10d"; }
+.flaticon-cup:before { content: "\f10e"; }
+.flaticon-down:before { content: "\f10f"; }
+.flaticon-drink:before { content: "\f110"; }
+.flaticon-graphic:before { content: "\f111"; }
+.flaticon-graphic-1:before { content: "\f112"; }
+.flaticon-graphic-2:before { content: "\f113"; }
+.flaticon-graphic-3:before { content: "\f114"; }
+.flaticon-healthy:before { content: "\f115"; }
+.flaticon-healthy-1:before { content: "\f116"; }
+.flaticon-healthy-2:before { content: "\f117"; }
+.flaticon-man:before { content: "\f118"; }
+.flaticon-medical:before { content: "\f119"; }
+.flaticon-medical-1:before { content: "\f11a"; }
+.flaticon-medical-2:before { content: "\f11b"; }
+.flaticon-medical-3:before { content: "\f11c"; }
+.flaticon-medical-4:before { content: "\f11d"; }
+.flaticon-medical-5:before { content: "\f11e"; }
+.flaticon-medical-6:before { content: "\f11f"; }
+.flaticon-medical-7:before { content: "\f120"; }
+.flaticon-money:before { content: "\f121"; }
+.flaticon-monitor:before { content: "\f122"; }
+.flaticon-signature:before { content: "\f123"; }
+.flaticon-target:before { content: "\f124"; }
+.flaticon-technology:before { content: "\f125"; }
+.flaticon-telephone:before { content: "\f126"; }
+.flaticon-three:before { content: "\f127"; }
+.flaticon-tool:before { content: "\f128"; }
+.flaticon-web:before { content: "\f129"; }
+    
+    $font-Flaticon-business: "\f100";
+    $font-Flaticon-business-1: "\f101";
+    $font-Flaticon-business-10: "\f102";
+    $font-Flaticon-business-11: "\f103";
+    $font-Flaticon-business-2: "\f104";
+    $font-Flaticon-business-3: "\f105";
+    $font-Flaticon-business-4: "\f106";
+    $font-Flaticon-business-5: "\f107";
+    $font-Flaticon-business-6: "\f108";
+    $font-Flaticon-business-7: "\f109";
+    $font-Flaticon-business-8: "\f10a";
+    $font-Flaticon-business-9: "\f10b";
+    $font-Flaticon-computer: "\f10c";
+    $font-Flaticon-contacts: "\f10d";
+    $font-Flaticon-cup: "\f10e";
+    $font-Flaticon-down: "\f10f";
+    $font-Flaticon-drink: "\f110";
+    $font-Flaticon-graphic: "\f111";
+    $font-Flaticon-graphic-1: "\f112";
+    $font-Flaticon-graphic-2: "\f113";
+    $font-Flaticon-graphic-3: "\f114";
+    $font-Flaticon-healthy: "\f115";
+    $font-Flaticon-healthy-1: "\f116";
+    $font-Flaticon-healthy-2: "\f117";
+    $font-Flaticon-man: "\f118";
+    $font-Flaticon-medical: "\f119";
+    $font-Flaticon-medical-1: "\f11a";
+    $font-Flaticon-medical-2: "\f11b";
+    $font-Flaticon-medical-3: "\f11c";
+    $font-Flaticon-medical-4: "\f11d";
+    $font-Flaticon-medical-5: "\f11e";
+    $font-Flaticon-medical-6: "\f11f";
+    $font-Flaticon-medical-7: "\f120";
+    $font-Flaticon-money: "\f121";
+    $font-Flaticon-monitor: "\f122";
+    $font-Flaticon-signature: "\f123";
+    $font-Flaticon-target: "\f124";
+    $font-Flaticon-technology: "\f125";
+    $font-Flaticon-telephone: "\f126";
+    $font-Flaticon-three: "\f127";
+    $font-Flaticon-tool: "\f128";
+    $font-Flaticon-web: "\f129";
