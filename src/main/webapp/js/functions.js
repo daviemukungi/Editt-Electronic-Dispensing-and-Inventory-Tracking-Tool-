@@ -6194,7 +6194,6 @@ function populateBinCard(drug) {
                 }
             }
 
-
             for(var i = 0; i < drugBin.totalStock.length; i++) {
                 totalStock = totalStock + drugBin.totalStock[i];
             }
