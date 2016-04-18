@@ -736,7 +736,7 @@ public class StocksServiceImpl implements StocksService {
             //Kelvin
             batch.setLooseQty((Integer)d[7]);
             batch.setPacks((Integer)d[8]);
-            if(batch.getLooseQty()!=null && batch.getPacks()!=null && batch.getPackSize()!=null) {
+            if( batch.getPacks()!=null && batch.getPackSize()!=null) {
                 batch.setTotalQty((batch.getPackSize() * batch.getPacks()) + batch.getLooseQty());
             }else {
                 batch.setTotalQty(0);
