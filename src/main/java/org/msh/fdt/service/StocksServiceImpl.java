@@ -715,7 +715,7 @@ public class StocksServiceImpl implements StocksService {
     @Transactional
     public List<Batch> listDrugBatch(Integer accountId, Integer drugId) {
 //        String sql = "SELECT d.name, ti.drug_id, ti.batch_no, ti.account_id,(COALESCE(SUM(ti.units_in), 0) - COALESCE(SUM(ti.units_out), 0)) as diff, bt.date_of_expiry, bt.pack_size, sto.looseQty, sto.packs, SUM(ti.units_in) as units_in, SUM(ti.units_out) as units_out FROM transaction_item ti JOIN transaction t ON ti.transaction_id = t.id JOIN drug d ON ti.drug_id = d.id LEFT JOIN batch_transaction_item bt ON bt.transaction_item_id = ti.id JOIN stock_take_item sto ON sto.drug_id = ti.drug_id WHERE looseQty is not null and ti.drug_id = " + drugId;
-        String sql = "SELECT d.name, ti.drug_id, ti.batch_no, ti.account_id,(COALESCE(SUM(ti.units_in), 0) - COALESCE(SUM(ti.units_out), 0)) as diff, bt.date_of_expiry, bt.pack_size, sto.looseQty, sto.packs, SUM(ti.units_in) as units_in, SUM(ti.units_out) as units_out FROM transaction_item ti JOIN transaction t ON ti.transaction_id = t.id JOIN drug d ON ti.drug_id = d.id LEFT JOIN batch_transaction_item bt ON bt.transaction_item_id = ti.id JOIN stock_take_item sto ON sto.drug_id = ti.drug_id WHERE sto.created_on=(SELECT max(created_on) FROM stock_take_item) and ti.drug_id = " + drugId;
+        String sql = "SELECT d.name, ti.drug_id, ti.batch_no, ti.account_id,(COALESCE(SUM(ti.units_in), 0) - COALESCE(SUM(ti.units_out), 0)) as diff, bt.date_of_expiry, bt.pack_size, sto.looseQty, sto.packs, SUM(ti.units_in) as units_in, SUM(ti.units_out) as units_out FROM transaction_item ti JOIN transaction t ON ti.transaction_id = t.id JOIN drug d ON ti.drug_id = d.id LEFT JOIN batch_transaction_item bt ON bt.transaction_item_id = ti.id JOIN stock_take_item sto ON sto.batch_no = ti.batch_no WHERE sto.created_on=(SELECT max(created_on) FROM stock_take_item) and ti.drug_id = " + drugId;
         if(accountId != -1) {
             sql += " AND ti.account_id = " + accountId;
         }
@@ -736,7 +736,7 @@ public class StocksServiceImpl implements StocksService {
             //Kelvin
             batch.setLooseQty((Integer)d[7]);
             batch.setPacks((Integer)d[8]);
-            if(batch.getLooseQty()!=null && batch.getPacks()!=null && batch.getPackSize()!=null) {
+            if( batch.getPacks()!=null && batch.getPackSize()!=null) {
                 batch.setTotalQty((batch.getPackSize() * batch.getPacks()) + batch.getLooseQty());
             }else {
                 batch.setTotalQty(0);

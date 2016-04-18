@@ -6192,12 +6192,13 @@ function populateBinCard(drug) {
                     var html = "<tr><td>" + drug.name + "</td><td class='title'>" + batch.packSize + "</td><td class='title'>" + batch.batch_no + "</td><td class='title'>" + batch.totalQty + "</td><td>" + getDate(batch.expiry_date) + "</td></tr>";
                     $('#binCardBatch > tbody:last').append(html);
                 }
+                totalStock = totalStock + batch.totalQty;//added by Kelvin
             }
 
-
-            for(var i = 0; i < drugBin.totalStock.length; i++) {
-                totalStock = totalStock + drugBin.totalStock[i];
-            }
+            //for(var i = 0; i < drugBin.totalStock.length; i++) {  Commented By Kelvin
+            //    totalStock = totalStock + drugBin.totalStock[i];
+            //}
+            //console.log(drugBin);
             drugBin.transactionItems[drug.id].sort(function(a,b) {
                 tx1 = drugBin.transactions[a.transactionId];
                 tx2 = drugBin.transactions[b.transactionId];
@@ -6206,7 +6207,7 @@ function populateBinCard(drug) {
             for (var i = 0; drugBin.transactionItems != undefined && drugBin.transactionItems[drug.id] != undefined && i < drugBin.transactionItems[drug.id].length; i++) {
                 var txItem = drugBin.transactionItems[drug.id][i];
                 var tx = drugBin.transactions[txItem.transactionId];
-               console.log(drugBin);
+                console.log(tx);
                 var btx = drugBin.batchTransactionItems[txItem.id];
                 var otherTx = drugBin.destTransactionItems[tx.id];
                 var qty = "";
