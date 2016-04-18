@@ -6207,7 +6207,7 @@ function populateBinCard(drug) {
             for (var i = 0; drugBin.transactionItems != undefined && drugBin.transactionItems[drug.id] != undefined && i < drugBin.transactionItems[drug.id].length; i++) {
                 var txItem = drugBin.transactionItems[drug.id][i];
                 var tx = drugBin.transactions[txItem.transactionId];
-               //console.log(batch);
+                console.log(tx);
                 var btx = drugBin.batchTransactionItems[txItem.id];
                 var otherTx = drugBin.destTransactionItems[tx.id];
                 var qty = "";
