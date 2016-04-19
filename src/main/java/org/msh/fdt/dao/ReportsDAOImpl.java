@@ -603,6 +603,8 @@ public class ReportsDAOImpl implements ReportsDAO {
         return result;
     }
 
+
+
     @Override
     public int executeUpdate(String sql) {
         int result = sessionFactory.getCurrentSession().createSQLQuery(sql).executeUpdate();

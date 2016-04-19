@@ -14,6 +14,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.formula.functions.Code;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.jfree.chart.ChartFactory;
@@ -7471,7 +7472,23 @@ public class ReportsServiceImpl implements ReportsService {
         String date1 = year + "/" + (Integer.parseInt(month) + 1) + "01";
         String date2 = getLastDay(month, year);
         PatientStatus ps = referenceDAO.getPatientStatus("Active");
-        String sql = "SELECT r.code, count(p.id), r.name, r.line, st.name as `service type`, st.id as `serviceId`, v.regimen_id,  floor(datediff(date(now()), date(p.date_of_birth)) / 365) as age FROM person p JOIN patient pt ON p.id = pt.person_id JOIN patient_service_type pst ON pt.id = pst.patient_id JOIN visit v ON pt.id = v.patient_id JOIN regimen r ON r.id = v.regimen_id JOIN service_type st ON st.id = pst.service_type_id WHERE v.id IN (SELECT max(id) FROM visit WHERE regimen_id IS NOT NULL GROUP BY patient_id) AND pt.patient_status_id = " + ps.getId() + " AND (date(v.start_date) BETWEEN '" + date1 + "' AND '" + date2 + "')  group by code ORDER BY pst.service_type_id";
+       String sql = "SELECT r.code, count(p.id), r.name, r.line, st.name as `service type`, st.id as `serviceId`, v.regimen_id,  floor(datediff(date(now()), date(p.date_of_birth)) / 365) as age FROM person p JOIN patient pt ON p.id = pt.person_id JOIN patient_service_type pst ON pt.id = pst.patient_id JOIN visit v ON pt.id = v.patient_id JOIN regimen r ON r.id = v.regimen_id JOIN service_type st ON st.id = pst.service_type_id WHERE v.id IN (SELECT max(id) FROM visit WHERE regimen_id IS NOT NULL GROUP BY patient_id) AND pt.patient_status_id = " + ps.getId() + " AND (date(v.start_date) BETWEEN '" + date1 + "' AND '" + date2 + "')  group by code ORDER BY pst.service_type_id";
+        //Editted by Davie
+
+        String sql1 = "select code, count(distinct patient_id) as NumofPatients from (select R2.CODE PCode, R2.name as PatientRegimen, regimen.id as RegID, regimen.code, regimen.name,\n" +
+                " drug.id as DrugID, drug.name as DrugName,visit.patient_id , person.id, person.date_of_birth ,\n" +
+                "curdate(), datediff(curdate(),person.date_of_birth) as Age from regimen \n" +
+                "inner join regimen_drug on regimen_drug.regimen_id=regimen.id \n" +
+                "inner join drug on drug.id=regimen_drug.drug_id  inner join \n" +
+                "transaction_item on drug.id=transaction_item.drug_id inner join \n" +
+                "transaction on transaction.id=transaction_item.transaction_id\n" +
+                "inner join visit on visit.id=transaction.visit_id\n" +
+                "inner join patient on patient.id=visit.patient_id inner join \n" +
+                "person on person.id=patient.person_id\n" +
+                "inner join (select * from regimen) as R2 on R2.id=visit.regimen_id\n" +
+                "where regimen.code in ('OI1A','OI1C','OI2A','OI2C','OI4A','OI4C','OI3A','OI3C',\n" +
+                "'CM3N','CM3R','OC3N','OC3R') and visit.start_date between '"+date1+"'  and '"+date2+"'\n" +
+                "and person.date_of_birth is not null) x group by code";
 
         String file_path = context.getRealPath("") + File.separator + "FMAPS-Template.xls";
 
@@ -7488,31 +7505,92 @@ public class ReportsServiceImpl implements ReportsService {
         String[] lastDays = date2.split("/");
         mySheet.getRow(6).getCell(6).setCellValue(lastDays[2] + "/" + lastDays[1] + "/" + lastDays[0]);
 
-        List<Object[]> activePatients = reportsDAO.execute(sql);
-        JSONObject regimens = new JSONObject();
-        for(Object[] o : activePatients) {
-            String code = String.valueOf(o[0]);
-            String count = String.valueOf(o[1]);
-            regimens.put(code, count);
+
+
+        String code1;
+        String count1;
+        String count2 = null;
+        String count3 = null;
+        String count4 = null;
+        List<Object[]> activePatients1 = reportsDAO.execute(sql1);
+        JSONObject regimens1 = new JSONObject();
+        for (Object[] o1 : activePatients1) {
+            code1 = String.valueOf(o1[0]);
+            count1 = String.valueOf(o1[1]);
+            if (o1[0].equals("OI1A")) {
+                count2 = String.valueOf(count1);
+                //count.equals(count1);
+            }else if(o1[0].equals("OI2A")){
+                count3 = String.valueOf(count1);
+            }
+            else if(o1[0].equals("OI1C")){
+                count4 = String.valueOf(count1);
+            }
+             else{
+
+                regimens1.put(code1, count1);
+            }
         }
-        int[] groupA = {22, 30, 36, 37, 48, 54, 60}; // Rows which must be skipped in the first columns
-        int[] groupB = {22, 24, 31, 32, 38, 42, 43, 44, 45, 50, 53, 60, 61, 62, 63, 64, 65}; // Rows which must be skipped in the second columns
-        for(int i = 13; i < 66; i++) {
-            if(!existInArray(i, groupA)) {
-                String code = mySheet.getRow(i).getCell(1).getStringCellValue();
-                if(regimens.has(code.trim())) {
-                    mySheet.getRow(i).getCell(3).setCellValue(Integer.parseInt(regimens.optString(code.trim())));
+
+            List<Object[]> activePatients = reportsDAO.execute(sql);
+            JSONObject regimens = new JSONObject();
+            for (Object[] o : activePatients) {
+               String code = String.valueOf(o[0]);
+              String count = String.valueOf(o[1]);
+                if (o[0].equals("OI1A")) {
+
+                    //count.equals(count1);
+                    regimens.put(code,count2);
+
+                } else if(o[0].equals("OI2A")) {
+                    regimens.put(code, count3);
+                }else if(o[0].equals("OI1C")) {
+                    regimens.put(code, count4);
+                }else{
+                    regimens.put(code,count);
                 }
             }
-            if(!existInArray(i, groupB)) {
-                String code = mySheet.getRow(i).getCell(5).getStringCellValue();
-                if(regimens.has(code.trim())) {
-                    mySheet.getRow(i).getCell(7).setCellValue(Integer.parseInt(regimens.optString(code.trim())));
+        //int sum = Integer.valueOf(regimens1.getString("OI1A")) + Integer.valueOf(count);
+         //The new list of objects should look something like this(below). notice where there is the if statement
+        //if the code loops  and the regimen code matches with the one specified  it should read values from "sql1" if it does not match then
+        //we should use the count of "sql" and not "sql1"
+//        List<Object[]> activePatients = reportsDAO.execute(sql);
+//        JSONObject regimens = new JSONObject();
+//        for (Object[] o : activePatients) {
+//            String code = String.valueOf(o[0]);
+//            String count = String.valueOf(o[1]);
+//            if(code.equals("OI1A"))
+//            regimens1.put(code1,count1);
+//            else
+//            {
+//                regimens.put(code,count);
+//            }
+//
+//        }
+
+
+
+
+
+
+            int[] groupA = {22, 30, 36, 37, 48, 54, 60}; // Rows which must be skipped in the first columns
+            int[] groupB = {22, 24, 31, 32, 38, 42, 43, 44, 45, 50, 53, 60, 61, 62, 63, 64, 65}; // Rows which must be skipped in the second columns
+            for (int i = 13; i < 66; i++) {
+                if (!existInArray(i, groupA)) {
+                    String code = mySheet.getRow(i).getCell(1).getStringCellValue();
+                    if (regimens.has(code.trim())) {
+                        mySheet.getRow(i).getCell(3).setCellValue(Integer.parseInt(regimens.optString(code.trim())));
+                    }
+                }
+                if (!existInArray(i, groupB)) {
+                    String code = mySheet.getRow(i).getCell(5).getStringCellValue();
+                    if (regimens.has(code.trim())) {
+                        mySheet.getRow(i).getCell(7).setCellValue(Integer.parseInt(regimens.optString(code.trim())));
+                    }
                 }
             }
+            return myWorkBook;
         }
-        return myWorkBook;
-    }
     public boolean existInArray(int value, int[] array) {
         for(int i = 0; i < array.length; i++) {
             if(array[i] == value) {
