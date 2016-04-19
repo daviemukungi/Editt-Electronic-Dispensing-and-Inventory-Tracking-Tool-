@@ -93,7 +93,7 @@
 
                     <div class="formItem" tabIndex="1">
                         <div class="item"><label>Transaction Date :</label></div>
-                        <div class="item"><input name="transactionDate" id="transactionDate" readonly /></div>
+                        <div class="item"><input type="text" name="transactionDate" id="transactionDate" readonly /></div>
                     </div>
                     <div class="formItem">
                         <div class="item"><label>Transaction type :</label></div>
@@ -110,7 +110,7 @@
                     <div class="formItem">
                         <div class="item"><label>Source :</label></div>
                         <div class="item">
-                            <select id="source" name="source" disabled>
+                            <select id="source" name="source" disabled >
                                 <option value="">Select one</option>
                             </select>
                         </div>

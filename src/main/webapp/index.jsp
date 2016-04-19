@@ -59,7 +59,7 @@
         <label style="font-size: 14px;">(EDITT)</label>
     </div>
     <div class="facilityName">
-        <label style="font-size: 14px;">Version: 1.8.6</label>
+        <label style="font-size: 14px;">Version: 1.8.7</label>
     </div>
 </div>
 <div class="logbody">

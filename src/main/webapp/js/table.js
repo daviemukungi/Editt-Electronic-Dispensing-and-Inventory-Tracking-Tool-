@@ -489,7 +489,7 @@ function getTransactionRow(index) {
         html += '<td style="width: 80px;"><input type="text" name="batchNo" id="tx-batchNo-' + index + '"/></td>';
     }
 
-    html += '<td class="qty-avail" style="width: 80px;"><input type="text" readonly  name="availableQty" id="tx-ava-qty-' + index + '"/></td><td style="width: 130px;"><input type="text" name="expDate" id="tx-expDate-' + index + '"/></label></td><td style="width: 80px;"><input type="text"  onkeyup="calculateQuantity(' + index + ')" name="packs" id="tx-packs-' + index + '"/></label></td>' +
+    html += '<td class="qty-avail" style="width: 80px;"><input type="text" readonly  name="availableQty" id="tx-ava-qty-' + index + '"/></td><td style="width: 130px;"><input type="text" name="expDate" id="tx-expDate-' + index + '" readonly/></label></td><td style="width: 80px;"><input type="text"  onkeyup="calculateQuantity(' + index + ')" name="packs" id="tx-packs-' + index + '"/></label></td>' +
         '<td style="width: 80px;"><input type="text"  name="packs" onkeyup="calculateQuantity(' + index + ')"  id="tx-open-packs-' + index + '"/></td><td style="width: 80px;"><input type="text" readonly name="qty" id="tx-qty-' + index + '"/></td>' +
         '<td style="width: 80px;"><input type="text" name="unit-cost" onkeyup="calculateCost(' + index + ')" id="tx-unit-cost-' + index + '"/></label></td><td style="width: 80px;"><input type="text" readonly name="total-cost" id="tx-total-cost-' + index + '"/></td>' +
         '<td><input type="text" name="comment" id="tx-comment-' + index + '"/></td>' +
