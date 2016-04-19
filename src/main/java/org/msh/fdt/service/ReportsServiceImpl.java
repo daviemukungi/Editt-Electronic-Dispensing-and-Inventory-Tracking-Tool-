@@ -7538,14 +7538,26 @@ public class ReportsServiceImpl implements ReportsService {
                String code = String.valueOf(o[0]);
               String count = String.valueOf(o[1]);
                 if (o[0].equals("OI1A")) {
-
+                   int Value1 = Integer.valueOf(count);
+                   int value2 = Integer.parseInt(count2);
+                    int value3  = Value1+value2;
+                    String value4 = Integer.toString(value3);
                     //count.equals(count1);
-                    regimens.put(code,count2);
+                    regimens.put(code,value4);
 
                 } else if(o[0].equals("OI2A")) {
-                    regimens.put(code, count3);
+                    int Val1 = Integer.valueOf(count);
+                    int val2 = Integer.parseInt(count3);
+                    int val3  = Val1+val2;
+                    String val4 = Integer.toString(val3);
+                    regimens.put(code, val4);
+
                 }else if(o[0].equals("OI1C")) {
-                    regimens.put(code, count4);
+                    int V1 = Integer.valueOf(count);
+                    int v2 = Integer.parseInt(count4);
+                    int v3  = V1+v2;
+                    String v4 = Integer.toString(v3);
+                    regimens.put(code, v4);
                 }else{
                     regimens.put(code,count);
                 }
