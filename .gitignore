@@ -71,3 +71,4 @@ nb-configuration.xml
 
 #### Model Classes to be ignored since they are generated from the db ####
 ###src/main/java/org/msh/fdt/model/###
+jdbc.properties
